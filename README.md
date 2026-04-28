@@ -27,6 +27,11 @@ A React + Tailwind CSS class memory site for the CSE batch 2022-2026. It shows a
 	VITE_CLOUDINARY_CLOUD_NAME=your_cloud_name
 	VITE_CLOUDINARY_UPLOAD_PRESET=your_unsigned_upload_preset
 	VITE_S3_PRESIGN_ENDPOINT=http://localhost:8787/presign
+	AWS_REGION=ap-south-1
+	S3_BUCKET=csg-images
+	AWS_ACCESS_KEY_ID=your_access_key_id
+	AWS_SECRET_ACCESS_KEY=your_secret_access_key
+	PORT=8787
 	```
 
 3. Start the dev server:
@@ -59,7 +64,36 @@ npm install
 npm start
 ```
 
-The browser app will call `VITE_S3_PRESIGN_ENDPOINT` to request upload URLs.
+The browser app will call `VITE_S3_PRESIGN_ENDPOINT` in development. In Vercel production, it defaults to `/api/presign`.
+
+## Deploying to Vercel
+
+1. Push the repo to GitHub.
+2. Import the repository into Vercel.
+3. Set these environment variables in Vercel:
+
+```bash
+AWS_REGION=ap-south-1
+S3_BUCKET=csg-images
+AWS_ACCESS_KEY_ID=your_access_key_id
+AWS_SECRET_ACCESS_KEY=your_secret_access_key
+```
+
+4. Leave `VITE_S3_PRESIGN_ENDPOINT` empty in Vercel unless you want to override the default.
+5. Deploy. Vercel will build the Vite app and serve the `/api/presign` function automatically.
+
+For local development, keep using:
+
+```bash
+npm run dev
+```
+
+and if you want S3 uploads locally, also run the legacy presign server:
+
+```bash
+cd server
+npm start
+```
 
 ## Features
 
@@ -104,4 +138,3 @@ Recommended IAM permissions for that user/role:
 - `s3:ListBucket` only if you need listing from the server
 
 Important: do not put AWS secrets in the browser `.env`. Keep them only in `server/.env`.
-# CSG-Memories

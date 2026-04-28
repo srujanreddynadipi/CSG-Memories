@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+
+:root {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #1f2340;
+  background:
+    radial-gradient(circle at top left, rgba(34, 211, 238, 0.18), transparent 26%),
+    radial-gradient(circle at top right, rgba(251, 146, 60, 0.16), transparent 24%),
+    linear-gradient(180deg, #fffdf8 0%, #fff6fb 42%, #f5fbff 100%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  color: #1f2340;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(168, 85, 247, 0.1), transparent 20%),
+    radial-gradient(circle at 80% 15%, rgba(20, 184, 166, 0.14), transparent 22%),
+    linear-gradient(180deg, #fffaf4 0%, #fff 100%);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at center, black, transparent 72%);
+  opacity: 0.32;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(244, 114, 182, 0.24);
+  color: #111827;
+}
+
+@keyframes floatUp {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-float-up {
+  animation: floatUp 6s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background-size: 240% 240%;
+  animation: shimmer 12s linear infinite;
+}
