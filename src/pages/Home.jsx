@@ -1,6 +1,5 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { normalizeYouTubeEmbedUrl } from '../utils/storage'
+import ClassmatesGallery from '../components/ClassmatesGallery'
 
 function HeroStat({ label, value }) {
   return (
@@ -11,25 +10,8 @@ function HeroStat({ label, value }) {
   )
 }
 
-export default function Home({ anthemUrl, setAnthemUrl }) {
+export default function Home({ classmates, addClassmate, removeClassmate }) {
   const navigate = useNavigate()
-  const [anthemDraft, setAnthemDraft] = useState(anthemUrl)
-  const [anthemError, setAnthemError] = useState('')
-
-  function handleAnthemSubmit(event) {
-    event.preventDefault()
-
-    const normalizedUrl = normalizeYouTubeEmbedUrl(anthemDraft)
-
-    if (anthemDraft.trim() && !normalizedUrl) {
-      setAnthemError('Paste a valid YouTube watch, short, or embed link.')
-      return
-    }
-
-    setAnthemError('')
-    setAnthemUrl(normalizedUrl)
-    setAnthemDraft(normalizedUrl)
-  }
 
   return (
     <main className="relative overflow-hidden">
@@ -38,7 +20,7 @@ export default function Home({ anthemUrl, setAnthemUrl }) {
           <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 rounded-full border border-fuchsia-200 bg-fuchsia-50 px-4 py-2 text-sm font-bold text-fuchsia-700 shadow-sm">
-                B.Tech Memories • CSE Batch 2022-2026
+                B.Tech Memories • CSG Batch 2022-2026
               </div>
 
               <div className="space-y-5">
@@ -73,7 +55,7 @@ export default function Home({ anthemUrl, setAnthemUrl }) {
               <div className="grid gap-3 sm:grid-cols-3">
                 <HeroStat label="Batch" value="CSE 2022-2026" />
                 <HeroStat label="Style" value="Vertical timeline" />
-                <HeroStat label="Storage" value="LocalStorage + Cloudinary" />
+                <HeroStat label="Storage" value="LocalStorage + Supabase" />
               </div>
             </div>
 
@@ -109,67 +91,11 @@ export default function Home({ anthemUrl, setAnthemUrl }) {
         </div>
       </section>
 
-      <section id="anthem" className="px-4 pb-10 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-6 rounded-[36px] border border-white/80 bg-white/80 px-5 py-8 shadow-[0_24px_75px_-44px_rgba(15,23,42,.5)] backdrop-blur lg:grid-cols-[0.95fr_1.05fr] lg:px-8">
-          <div className="space-y-4">
-            <p className="text-xs font-bold uppercase tracking-[0.34em] text-slate-500">Class anthem</p>
-            <h2 className="text-3xl font-black tracking-tight text-slate-950">Save the song that defined the batch.</h2>
-            <p className="max-w-xl text-base leading-8 text-slate-600">
-              Paste any YouTube watch or embed link. The app stores it locally and renders the
-              anthem inline on the home page.
-            </p>
-
-            <form onSubmit={handleAnthemSubmit} className="space-y-3">
-              <input
-                type="url"
-                value={anthemDraft}
-                onChange={(event) => setAnthemDraft(event.target.value)}
-                placeholder="https://www.youtube.com/watch?v=..."
-                className="w-full rounded-[24px] border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-cyan-300"
-              />
-              <div className="flex flex-wrap gap-3">
-                <button
-                  type="submit"
-                  className="rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
-                >
-                  Save anthem
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setAnthemDraft('')
-                    setAnthemError('')
-                    setAnthemUrl('')
-                  }}
-                  className="rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:text-slate-950"
-                >
-                  Clear anthem
-                </button>
-              </div>
-              {anthemError ? <p className="text-sm font-semibold text-rose-600">{anthemError}</p> : null}
-            </form>
-          </div>
-
-          <div className="overflow-hidden rounded-[30px] border border-slate-100 bg-slate-950 shadow-[0_24px_55px_-34px_rgba(15,23,42,.8)]">
-            {anthemUrl ? (
-              <iframe
-                title="Class anthem"
-                src={anthemUrl}
-                className="aspect-video w-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            ) : (
-              <div className="flex aspect-video items-center justify-center bg-[radial-gradient(circle_at_top,rgba(34,211,238,.28),transparent_35%),linear-gradient(135deg,#111827,#1f2937,#0f172a)] px-8 text-center text-white">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.36em] text-cyan-200/80">Preview</p>
-                  <p className="mt-3 text-2xl font-black tracking-tight">Add a YouTube link to show the anthem here.</p>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
+      <ClassmatesGallery
+        classmates={classmates}
+        onAddClassmate={addClassmate}
+        onRemoveClassmate={removeClassmate}
+      />
     </main>
   )
 }
